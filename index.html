@@ -2,210 +2,249 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>C3专职安全员考核刷题</title>
+    <!-- 手机视口关键配置 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum‑scale=1.0,user‑scalable=no">
+    <title>C3专职安全员刷题</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: "Microsoft Yahei", system-ui, sans-serif;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Microsoft Yahei", sans-serif;
         }
         body {
-            background-color: #f6f7fa;
-            padding: 24px;
-            max-width: 1200px;
-            margin: 0 auto;
-            color: #222;
+            background-color: #f5f7fa;
+            color:#212529;
+            padding:16px;
+            max-width:750px;
+            margin:0 auto;
         }
-        .header-title {
-            display: flex;
-            align-items: center;
-            gap:10px;
-            margin-bottom:24px;
+        /* 首页 */
+        .page-home{
+            display:block;
+        }
+        .page-quiz{
+            display:none;
+        }
+        .header-title{
+            display:flex;
+            align-items:center;
+            gap:12px;
+            margin-bottom:20px;
         }
         .logo-box{
-            width:40px;height:40px;
+            width:44px;
+            height:44px;
+            border-radius:10px;
             background:#2563eb;
-            border-radius:8px;
+            color:#fff;
+            font-weight:bold;
             display:flex;
             align-items:center;
             justify-content:center;
-            color:#fff;
-            font-weight:bold;
-        }
-        .header-text h1{
             font-size:20px;
         }
-        .header-text p{
-            color:#666;
-            font-size:14px;
+        .header-text h1{
+            font-size:19px;
         }
+        .header-text p{
+            font-size:13px;
+            color:#6c757d;
+            margin-top:2px;
+        }
+        /* 统计卡片 手机网格2列 */
         .stat-row{
             display:grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap:16px;
-            margin-bottom:28px;
+            grid-template-columns: 1fr 1fr;
+            gap:12px;
+            margin-bottom:24px;
         }
         .stat-card{
-            background:#fff;
+            background:#ffffff;
             border-radius:12px;
-            padding:20px;
+            padding:18px 12px;
             text-align:center;
-            box-shadow:0 1px 3px #0000000f;
+            box-shadow:0 1px 4px rgba(0,0,0,0.06);
         }
         .stat-card .num{
-            font-size:32px;
+            font-size:28px;
             font-weight:bold;
+            color:#2563eb;
             margin-bottom:4px;
         }
         .stat-card .label{
-            color:#666;
-            font-size:14px;
+            font-size:13px;
+            color:#6c757d;
         }
         .section-title{
             font-size:16px;
-            margin-bottom:16px;
-            font-weight:500;
+            font-weight:600;
+            margin:24px 0 14px;
         }
+        /* 模块卡片 */
         .module-row{
             display:grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap:16px;
-            margin-bottom:28px;
+            gap:14px;
         }
         .module-card{
             background:#fff;
             border-radius:12px;
-            padding:20px;
-            box-shadow:0 1px 3px #0000000f;
-            position:relative;
+            padding:18px 16px;
+            box-shadow:0 1px 4px rgba(0,0,0,0.06);
         }
-        .module-card .tag{
-            width:44px;height:44px;
+        .tag{
+            width:42px;
+            height:42px;
             border-radius:8px;
+            color:#fff;
+            font-weight:bold;
             display:flex;
             align-items:center;
             justify-content:center;
-            color:#fff;
-            font-weight:bold;
-            font-size:20px;
-            margin-bottom:12px;
+            font-size:18px;
+            margin-bottom:10px;
         }
         .tag-fa{background:#3b82f6;}
         .tag-guan{background:#10b981;}
         .tag-ji{background:#f97316;}
-        .module-card h3{font-size:18px;margin-bottom:6px;}
-        .module-card .weight{color:#666;font-size:14px;margin-bottom:12px;}
-        .module-card .progress-line{
+        .module-card h3{
+            font-size:17px;
+            margin-bottom:4px;
+        }
+        .module-card .weight{
+            font-size:13px;
+            color:#6c757d;
+            margin-bottom:10px;
+        }
+        .progress-line{
             width:100%;
-            height:6px;
-            background:#eee;
+            height:7px;
+            background:#e9ecef;
             border-radius:99px;
             margin-bottom:12px;
         }
-        .module-card .progress-inner{
-            height:6px;
-            background:#3b82f6;
+        .progress-inner{
+            height:7px;
             border-radius:99px;
+            background:#3b82f6;
             width:0%;
         }
-        .module-card .btn-start{
-            float:right;
+        .btn-start{
+            width:100%;
             border:none;
-            background:transparent;
-            color:#2563eb;
-            font-size:15px;
+            background:#2563eb;
+            color:#fff;
+            border-radius:10px;
+            padding:12px;
+            font-size:16px;
             cursor:pointer;
         }
+        /* 功能卡片 */
         .func-row{
             display:grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap:16px;
-            margin-bottom:28px;
+            grid-template-columns:1fr 1fr 1fr;
+            gap:12px;
         }
         .func-card{
             background:#fff;
             border-radius:12px;
-            padding:24px 20px;
+            padding:20px 8px;
             text-align:center;
-            box-shadow:0 1px 3px #0000000f;
+            box-shadow:0 1px 4px rgba(0,0,0,0.06);
             cursor:pointer;
         }
         .func-card .icon{
             font-size:24px;
-            color:#2563eb;
-            margin-bottom:8px;
+            margin-bottom:6px;
         }
-        .func-card h3{font-size:16px;margin-bottom:4px;}
-        .func-card p{color:#666;font-size:13px;}
+        .func-card h3{
+            font-size:14px;
+            margin-bottom:3px;
+        }
+        .func-card p{
+            font-size:12px;
+            color:#6c757d;
+        }
         .bottom-stat{
             background:#fff;
             border-radius:12px;
-            padding:16px 20px;
-            color:#555;
-            font-size:14px;
+            padding:16px 14px;
+            margin-top:20px;
+            font-size:13px;
+            line-height:1.6;
+            color:#495057;
         }
 
-        /* 刷题页面样式，默认隐藏 */
-        .page-quiz{
-            display:none;
-        }
+        /* 刷题页面样式 */
         .back-home{
             border:none;
             background:#6b7280;
-            color:white;
-            padding:8px 14px;
-            border-radius:6px;
+            color:#fff;
+            padding:10px 14px;
+            border-radius:8px;
+            font-size:15px;
             cursor:pointer;
-            margin-bottom:16px;
+            margin-bottom:14px;
+        }
+        .info-bar{
+            font-size:14px;
+            color:#495057;
+            margin-bottom:12px;
         }
         .question-box{
             background:#fff;
             border-radius:12px;
-            padding:24px;
-            box-shadow:0 1px 3px #0000000f;
+            padding:20px 16px;
+            box-shadow:0 1px 4px rgba(0,0,0,0.06);
         }
         .q-title{
-            font-size:17px;
+            font-size:16px;
+            line-height:1.7;
             margin-bottom:20px;
-            line-height:1.6;
         }
+        /* 手机大选项按钮，适合手指点击 */
         .option-item{
-            margin:12px 0;
+            border:1px solid #dee2e6;
+            border-radius:10px;
+            padding:14px 12px;
+            margin-bottom:12px;
             font-size:16px;
             cursor:pointer;
-            padding:10px 12px;
-            border-radius:8px;
-            border:1px solid #eee;
-        }
-        .option-item:hover{
-            background:#f0f7ff;
+            min-height:52px;
         }
         .option-item.selected{
-            background:#dbeafe;
             border-color:#2563eb;
+            background-color:#dbeafe;
         }
         .answer-area{
-            margin-top:20px;
+            margin-top:18px;
             padding-top:16px;
-            border-top:1px dashed #ddd;
+            border-top:1px dashed #ced4da;
         }
-        .correct-text{color:#059669;font-weight:bold;}
-        .wrong-text{color:#dc2626;font-weight:bold;}
-        .hide{display:none;}
+        .correct-text{
+            color:#059669;
+            font-weight:bold;
+        }
+        .wrong-text{
+            color:#dc2626;
+            font-weight:bold;
+        }
+        .hide{
+            display:none;
+        }
+        /* 刷题底部按钮组 */
         .quiz-btn-group{
-            display:flex;
+            display:grid;
+            grid-template-columns: 1fr 1fr;
             gap:10px;
-            margin-top:20px;
-            flex-wrap:wrap;
+            margin-top:18px;
         }
         .quiz-btn-group button{
-            padding:9px 16px;
+            padding:13px 8px;
             border:none;
-            border-radius:6px;
+            border-radius:10px;
+            font-size:15px;
             cursor:pointer;
-            font-size:14px;
         }
         .btn-blue{background:#2563eb;color:#fff;}
         .btn-orange{background:#f59e0b;color:#fff;}
@@ -213,6 +252,24 @@
         .btn-gray{background:#6b7280;color:#fff;}
         .jump-area{
             margin-top:16px;
+            display:flex;
+            gap:8px;
+            align-items:center;
+        }
+        .jump-area input{
+            flex:1;
+            padding:11px;
+            border:1px solid #ced4da;
+            border-radius:8px;
+            font-size:16px;
+        }
+        .jump-area button{
+            padding:11px 14px;
+            border:none;
+            border-radius:8px;
+            background:#2563eb;
+            color:#fff;
+            font-size:15px;
         }
     </style>
 </head>
@@ -223,12 +280,12 @@
             <div class="logo-box">C3</div>
             <div class="header-text">
                 <h1>C3专职安全员考核刷题</h1>
-                <p>广东省建筑施工企业·第六批题库·共 2965 题</p>
+                <p>广东省建筑施工企业·第六批题库</p>
             </div>
         </div>
         <div class="stat-row">
             <div class="stat-card">
-                <div class="num" id="stat-total">2965</div>
+                <div class="num" id="stat-total">0</div>
                 <div class="label">总题数</div>
             </div>
             <div class="stat-card">
@@ -275,7 +332,7 @@
             <div class="func-card" onclick="startExam()">
                 <div class="icon">🕒</div>
                 <h3>模拟考试</h3>
-                <p>计时抽题</p>
+                <p id="exam-tip">待开发</p>
             </div>
             <div class="func-card" onclick="openWrongBook()">
                 <div class="icon">🗑</div>
@@ -310,31 +367,32 @@
             <button class="btn-green" onclick="shuffleQuiz()">随机刷题</button>
             <button class="btn-gray" onclick="prevQ()">上一题</button>
         </div>
-        <div class="jump-area">跳转到题号：<input type="number" id="jump-num"> <button class="btn-blue" onclick="jumpQ()">跳转</button></div>
+        <div class="jump-area">
+            <input type="number" id="jump-num" placeholder="跳转题号">
+            <button onclick="jumpQ()">跳转</button>
+        </div>
     </div>
 
 <script>
-// 题库，分三个模块
-const bank = {
-    fa:[
-        {"q":"1.根据《建筑起重机械安全监督管理规定》,建筑起重机械在( )应当经有相应资质的检验检测机构监督检验合格。","opts":["A.验收前","B.验收后","C.调试前","D.调试后"],"ans":"A"},
-        {"q":"2.根据《建筑起重机械安全监督管理规定》,建筑起重机械特种作业人员应当遵守建筑起重机械安全操作规程和安全管理制度,在作业中有权拒绝违章指挥和强令冒险作业,( )在发生危及人身安全的紧急情况时立即停止作业或者采取必要的应急措施后撤离危险区域。","opts":["A.有权","B.无权","C.有责任","D.无责任"],"ans":"A"},
-    ],
-    guan:[
-        {"q":"1.施工单位应当在施工现场建立消防安全责任制度，确定消防安全责任人。","opts":["A.正确","B.错误"],"ans":"A"},
-        {"q":"2.总承包单位应当自行完成建设工程主体结构的施工。","opts":["A.正确","B.错误"],"ans":"A"},
-    ],
-    ji:[
-        {"q":"1.塔式起重机安装、拆卸作业应配备持有有效安全生产考核合格证书的项目负责人和安全负责人。","opts":["A.正确","B.错误"],"ans":"A"},
-        {"q":"2.脚手架立杆基础不在同一高度上时，必须将高处的纵向扫地杆向低处延长两跨固定。","opts":["A.正确","B.错误"],"ans":"A"},
-    ]
-};
+let bank = null;
 const moduleTotal = {fa:745, guan:838, ji:1382};
 let currentModule = "fa";
 let currentList = [];
 let currentIdx = 0;
 let userSel = null;
 let showAnsFlag = false;
+
+// 加载外部json题库
+async function loadBank(){
+  try{
+    const res = await fetch("./questions.json");
+    bank = await res.json();
+    refreshHomeStat();
+  }catch(e){
+    alert("题库加载失败！检查 questions.json 文件。\n"+e);
+    console.error(e);
+  }
+}
 
 // 本地存储
 let store = JSON.parse(localStorage.getItem("c3store")) || {
@@ -343,7 +401,9 @@ let store = JSON.parse(localStorage.getItem("c3store")) || {
     collect:[],
     rightCnt:{fa:0,guan:0,ji:0}
 };
-function saveStore(){localStorage.setItem("c3store", JSON.stringify(store));}
+function saveStore(){
+    localStorage.setItem("c3store", JSON.stringify(store));
+}
 
 // 首页刷新统计
 function refreshHomeStat(){
@@ -379,6 +439,10 @@ function refreshHomeStat(){
 
 // 切换页面
 function startQuiz(mod){
+    if(!bank){
+        alert("题库还未加载完成，请稍等刷新页面");
+        return;
+    }
     currentModule = mod;
     currentList = JSON.parse(JSON.stringify(bank[mod]));
     currentIdx = 0;
@@ -469,12 +533,12 @@ function jumpQ(){
     if(isNaN(v) || v<1 || v>currentList.length){alert("题号非法");return;}
     currentIdx = v-1; renderQ();
 }
-function startExam(){alert("模拟考试功能，后续可以扩展");}
-function openWrongBook(){alert("错题本功能，后续可以扩展");}
-function openCollect(){alert("收藏功能，后续可以扩展");}
+function startExam(){alert("模拟考试功能待开发");}
+function openWrongBook(){alert("错题本功能待开发");}
+function openCollect(){alert("收藏功能待开发");}
 
 window.onload = function(){
-    refreshHomeStat();
+    loadBank();
 }
 </script>
 </body>
