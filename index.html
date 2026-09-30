@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C3专职安全员考核刷题</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft Yahei", system-ui, sans-serif;
+        }
+        body {
+            background-color: #f6f7fa;
+            padding: 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+            color: #222;
+        }
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap:10px;
+            margin-bottom:24px;
+        }
+        .logo-box{
+            width:40px;height:40px;
+            background:#2563eb;
+            border-radius:8px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:#fff;
+            font-weight:bold;
+        }
+        .header-text h1{
+            font-size:20px;
+        }
+        .header-text p{
+            color:#666;
+            font-size:14px;
+        }
+        .stat-row{
+            display:grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap:16px;
+            margin-bottom:28px;
+        }
+        .stat-card{
+            background:#fff;
+            border-radius:12px;
+            padding:20px;
+            text-align:center;
+            box-shadow:0 1px 3px #0000000f;
+        }
+        .stat-card .num{
+            font-size:32px;
+            font-weight:bold;
+            margin-bottom:4px;
+        }
+        .stat-card .label{
+            color:#666;
+            font-size:14px;
+        }
+        .section-title{
+            font-size:16px;
+            margin-bottom:16px;
+            font-weight:500;
+        }
+        .module-row{
+            display:grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap:16px;
+            margin-bottom:28px;
+        }
+        .module-card{
+            background:#fff;
+            border-radius:12px;
+            padding:20px;
+            box-shadow:0 1px 3px #0000000f;
+            position:relative;
+        }
+        .module-card .tag{
+            width:44px;height:44px;
+            border-radius:8px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:#fff;
+            font-weight:bold;
+            font-size:20px;
+            margin-bottom:12px;
+        }
+        .tag-fa{background:#3b82f6;}
+        .tag-guan{background:#10b981;}
+        .tag-ji{background:#f97316;}
+        .module-card h3{font-size:18px;margin-bottom:6px;}
+        .module-card .weight{color:#666;font-size:14px;margin-bottom:12px;}
+        .module-card .progress-line{
+            width:100%;
+            height:6px;
+            background:#eee;
+            border-radius:99px;
+            margin-bottom:12px;
+        }
+        .module-card .progress-inner{
+            height:6px;
+            background:#3b82f6;
+            border-radius:99px;
+            width:0%;
+        }
+        .module-card .btn-start{
+            float:right;
+            border:none;
+            background:transparent;
+            color:#2563eb;
+            font-size:15px;
+            cursor:pointer;
+        }
+        .func-row{
+            display:grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap:16px;
+            margin-bottom:28px;
+        }
+        .func-card{
+            background:#fff;
+            border-radius:12px;
+            padding:24px 20px;
+            text-align:center;
+            box-shadow:0 1px 3px #0000000f;
+            cursor:pointer;
+        }
+        .func-card .icon{
+            font-size:24px;
+            color:#2563eb;
+            margin-bottom:8px;
+        }
+        .func-card h3{font-size:16px;margin-bottom:4px;}
+        .func-card p{color:#666;font-size:13px;}
+        .bottom-stat{
+            background:#fff;
+            border-radius:12px;
+            padding:16px 20px;
+            color:#555;
+            font-size:14px;
+        }
+
+        /* 刷题页面样式，默认隐藏 */
+        .page-quiz{
+            display:none;
+        }
+        .back-home{
+            border:none;
+            background:#6b7280;
+            color:white;
+            padding:8px 14px;
+            border-radius:6px;
+            cursor:pointer;
+            margin-bottom:16px;
+        }
+        .question-box{
+            background:#fff;
+            border-radius:12px;
+            padding:24px;
+            box-shadow:0 1px 3px #0000000f;
+        }
+        .q-title{
+            font-size:17px;
+            margin-bottom:20px;
+            line-height:1.6;
+        }
+        .option-item{
+            margin:12px 0;
+            font-size:16px;
+            cursor:pointer;
+            padding:10px 12px;
+            border-radius:8px;
+            border:1px solid #eee;
+        }
+        .option-item:hover{
+            background:#f0f7ff;
+        }
+        .option-item.selected{
+            background:#dbeafe;
+            border-color:#2563eb;
+        }
+        .answer-area{
+            margin-top:20px;
+            padding-top:16px;
+            border-top:1px dashed #ddd;
+        }
+        .correct-text{color:#059669;font-weight:bold;}
+        .wrong-text{color:#dc2626;font-weight:bold;}
+        .hide{display:none;}
+        .quiz-btn-group{
+            display:flex;
+            gap:10px;
+            margin-top:20px;
+            flex-wrap:wrap;
+        }
+        .quiz-btn-group button{
+            padding:9px 16px;
+            border:none;
+            border-radius:6px;
+            cursor:pointer;
+            font-size:14px;
+        }
+        .btn-blue{background:#2563eb;color:#fff;}
+        .btn-orange{background:#f59e0b;color:#fff;}
+        .btn-green{background:#10b981;color:#fff;}
+        .btn-gray{background:#6b7280;color:#fff;}
+        .jump-area{
+            margin-top:16px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 首页仪表盘 -->
+    <div class="page-home">
+        <div class="header-title">
+            <div class="logo-box">C3</div>
+            <div class="header-text">
+                <h1>C3专职安全员考核刷题</h1>
+                <p>广东省建筑施工企业·第六批题库·共 2965 题</p>
+            </div>
+        </div>
+        <div class="stat-row">
+            <div class="stat-card">
+                <div class="num" id="stat-total">2965</div>
+                <div class="label">总题数</div>
+            </div>
+            <div class="stat-card">
+                <div class="num" id="stat-done">0</div>
+                <div class="label">已刷</div>
+            </div>
+            <div class="stat-card">
+                <div class="num" id="stat-rate">0%</div>
+                <div class="label">正确率</div>
+            </div>
+            <div class="stat-card">
+                <div class="num" id="stat-wrong">0</div>
+                <div class="label">错题</div>
+            </div>
+        </div>
+
+        <div class="section-title">三大板块（按考核权重分类）</div>
+        <div class="module-row">
+            <div class="module-card">
+                <div class="tag tag-fa">法</div>
+                <h3>法律法规</h3>
+                <div class="weight">考核权重 20% · <span id="mod-fa">已刷 0/745</span></div>
+                <div class="progress-line"><div class="progress-inner" id="prog-fa"></div></div>
+                <button class="btn-start" onclick="startQuiz('fa')">开刷</button>
+            </div>
+            <div class="module-card">
+                <div class="tag tag-guan">管</div>
+                <h3>安全管理</h3>
+                <div class="weight">考核权重 40% · <span id="mod-guan">已刷 0/838</span></div>
+                <div class="progress-line"><div class="progress-inner" id="prog-guan"></div></div>
+                <button class="btn-start" onclick="startQuiz('guan')">开刷</button>
+            </div>
+            <div class="module-card">
+                <div class="tag tag-ji">技</div>
+                <h3>机械设备·土建综合安全技术</h3>
+                <div class="weight">考核权重 40% · <span id="mod-ji">已刷 0/1382</span></div>
+                <div class="progress-line"><div class="progress-inner" id="prog-ji"></div></div>
+                <button class="btn-start" onclick="startQuiz('ji')">开刷</button>
+            </div>
+        </div>
+
+        <div class="section-title">功能</div>
+        <div class="func-row">
+            <div class="func-card" onclick="startExam()">
+                <div class="icon">🕒</div>
+                <h3>模拟考试</h3>
+                <p>计时抽题</p>
+            </div>
+            <div class="func-card" onclick="openWrongBook()">
+                <div class="icon">🗑</div>
+                <h3>错题本</h3>
+                <p id="wrong-count">0题</p>
+            </div>
+            <div class="func-card" onclick="openCollect()">
+                <div class="icon">⭐</div>
+                <h3>我的收藏</h3>
+                <p id="collect-count">0题</p>
+            </div>
+        </div>
+
+        <div class="section-title">学习统计</div>
+        <div class="bottom-stat" id="bottom-stat-text">法律法规 0题·正确率0%　安全管理 0题·正确率0%　机械设备·土建 0题·正确率0%</div>
+    </div>
+
+    <!-- 刷题页面 -->
+    <div class="page-quiz">
+        <button class="back-home" onclick="backToHome()">← 返回首页</button>
+        <div class="info-bar">当前：<span id="quiz-index">0</span> / <span id="quiz-total">0</span></div>
+        <div class="question-box">
+            <div class="q-title" id="q-text"></div>
+            <div id="opt-wrap"></div>
+            <div class="answer-area hide" id="ans-box">
+                <div id="ans-result"></div>
+            </div>
+        </div>
+        <div class="quiz-btn-group">
+            <button class="btn-blue" onclick="showAnswer()">显示答案</button>
+            <button class="btn-orange" onclick="nextQ()">下一题</button>
+            <button class="btn-green" onclick="shuffleQuiz()">随机刷题</button>
+            <button class="btn-gray" onclick="prevQ()">上一题</button>
+        </div>
+        <div class="jump-area">跳转到题号：<input type="number" id="jump-num"> <button class="btn-blue" onclick="jumpQ()">跳转</button></div>
+    </div>
+
+<script>
+// 题库，分三个模块
+const bank = {
+    fa:[
+        {"q":"1.根据《建筑起重机械安全监督管理规定》,建筑起重机械在( )应当经有相应资质的检验检测机构监督检验合格。","opts":["A.验收前","B.验收后","C.调试前","D.调试后"],"ans":"A"},
+        {"q":"2.根据《建筑起重机械安全监督管理规定》,建筑起重机械特种作业人员应当遵守建筑起重机械安全操作规程和安全管理制度,在作业中有权拒绝违章指挥和强令冒险作业,( )在发生危及人身安全的紧急情况时立即停止作业或者采取必要的应急措施后撤离危险区域。","opts":["A.有权","B.无权","C.有责任","D.无责任"],"ans":"A"},
+    ],
+    guan:[
+        {"q":"1.施工单位应当在施工现场建立消防安全责任制度，确定消防安全责任人。","opts":["A.正确","B.错误"],"ans":"A"},
+        {"q":"2.总承包单位应当自行完成建设工程主体结构的施工。","opts":["A.正确","B.错误"],"ans":"A"},
+    ],
+    ji:[
+        {"q":"1.塔式起重机安装、拆卸作业应配备持有有效安全生产考核合格证书的项目负责人和安全负责人。","opts":["A.正确","B.错误"],"ans":"A"},
+        {"q":"2.脚手架立杆基础不在同一高度上时，必须将高处的纵向扫地杆向低处延长两跨固定。","opts":["A.正确","B.错误"],"ans":"A"},
+    ]
+};
+const moduleTotal = {fa:745, guan:838, ji:1382};
+let currentModule = "fa";
+let currentList = [];
+let currentIdx = 0;
+let userSel = null;
+let showAnsFlag = false;
+
+// 本地存储
+let store = JSON.parse(localStorage.getItem("c3store")) || {
+    done:{fa:[],guan:[],ji:[]},
+    wrong:[],
+    collect:[],
+    rightCnt:{fa:0,guan:0,ji:0}
+};
+function saveStore(){localStorage.setItem("c3store", JSON.stringify(store));}
+
+// 首页刷新统计
+function refreshHomeStat(){
+    const doneFa = store.done.fa.length;
+    const doneGuan = store.done.guan.length;
+    const doneJi = store.done.ji.length;
+    const totalDone = doneFa + doneGuan + doneJi;
+    const totalWrong = store.wrong.length;
+    const totalAll = moduleTotal.fa + moduleTotal.guan + moduleTotal.ji;
+    let totalRight = store.rightCnt.fa + store.rightCnt.guan + store.rightCnt.ji;
+    let rate = totalDone ===0 ? "0%" : Math.round(totalRight / totalDone *100)+"%";
+
+    document.getElementById("stat-total").innerText = totalAll;
+    document.getElementById("stat-done").innerText = totalDone;
+    document.getElementById("stat-rate").innerText = rate;
+    document.getElementById("stat-wrong").innerText = totalWrong;
+
+    document.getElementById("mod-fa").innerText = `已刷 ${doneFa}/${moduleTotal.fa}`;
+    document.getElementById("prog-fa").style.width = (doneFa/moduleTotal.fa*100)+"%";
+    document.getElementById("mod-guan").innerText = `已刷 ${doneGuan}/${moduleTotal.guan}`;
+    document.getElementById("prog-guan").style.width = (doneGuan/moduleTotal.guan*100)+"%";
+    document.getElementById("mod-ji").innerText = `已刷 ${doneJi}/${moduleTotal.ji}`;
+    document.getElementById("prog-ji").style.width = (doneJi/moduleTotal.ji*100)+"%";
+
+    document.getElementById("wrong-count").innerText = totalWrong + "题";
+    document.getElementById("collect-count").innerText = store.collect.length + "题";
+
+    const rFa = doneFa? Math.round(store.rightCnt.fa/doneFa*100)+"%" : "0%";
+    const rGuan = doneGuan? Math.round(store.rightCnt.guan/doneGuan*100)+"%" : "0%";
+    const rJi = doneJi? Math.round(store.rightCnt.ji/doneJi*100)+"%" : "0%";
+    document.getElementById("bottom-stat-text").innerText = `法律法规 ${doneFa}题·正确率${rFa}　安全管理 ${doneGuan}题·正确率${rGuan}　机械设备·土建 ${doneJi}题·正确率${rJi}`;
+}
+
+// 切换页面
+function startQuiz(mod){
+    currentModule = mod;
+    currentList = JSON.parse(JSON.stringify(bank[mod]));
+    currentIdx = 0;
+    document.querySelector(".page-home").style.display = "none";
+    document.querySelector(".page-quiz").style.display = "block";
+    renderQ();
+}
+function backToHome(){
+    document.querySelector(".page-home").style.display = "block";
+    document.querySelector(".page-quiz").style.display = "none";
+    refreshHomeStat();
+}
+
+// 渲染题目
+function renderQ(){
+    showAnsFlag = false;
+    document.getElementById("ans-box").classList.add("hide");
+    userSel = null;
+    const item = currentList[currentIdx];
+    document.getElementById("quiz-index").innerText = currentIdx+1;
+    document.getElementById("quiz-total").innerText = currentList.length;
+    document.getElementById("q-text").innerText = item.q;
+    const optWrap = document.getElementById("opt-wrap");
+    optWrap.innerHTML = "";
+    item.opts.forEach(opt=>{
+        const div = document.createElement("div");
+        div.className = "option-item";
+        div.innerText = opt;
+        div.dataset.val = opt.substring(0,1);
+        div.onclick = function(){
+            userSel = this.dataset.val;
+            document.querySelectorAll(".option-item").forEach(o=>o.classList.remove("selected"));
+            this.classList.add("selected");
+        }
+        optWrap.appendChild(div);
+    })
+}
+
+function showAnswer(){
+    showAnsFlag = true;
+    const item = currentList[currentIdx];
+    document.getElementById("ans-box").classList.remove("hide");
+    let html = `标准答案：<span class="correct-text">${item.ans}</span><br>`;
+    if(userSel){
+        if(userSel === item.ans){
+            html += `<span class="correct-text">你的选择：${userSel}，回答正确 ✅</span>`;
+            if(!store.done[currentModule].includes(currentIdx)){
+                store.done[currentModule].push(currentIdx);
+                store.rightCnt[currentModule] +=1;
+            }
+        }else{
+            html += `<span class="wrong-text">你的选择：${userSel}，回答错误 ❌</span>`;
+            if(!store.wrong.some(w=>w.mod===currentModule && w.idx===currentIdx)){
+                store.wrong.push({mod:currentModule, idx:currentIdx});
+            }
+            if(!store.done[currentModule].includes(currentIdx)){
+                store.done[currentModule].push(currentIdx);
+            }
+        }
+        saveStore();
+    }else{
+        html += `你尚未选择选项`;
+    }
+    document.getElementById("ans-result").innerHTML = html;
+}
+
+function nextQ(){
+    if(currentIdx < currentList.length-1){
+        currentIdx++;
+        renderQ();
+    }else alert("已经是最后一题");
+}
+function prevQ(){
+    if(currentIdx>0){
+        currentIdx--;
+        renderQ();
+    }else alert("已经是第一题");
+}
+function shuffleQuiz(){
+    for(let i = currentList.length -1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [currentList[i],currentList[j]] = [currentList[j],currentList[i]];
+    }
+    currentIdx =0; renderQ();
+}
+function jumpQ(){
+    const v = parseInt(document.getElementById("jump-num").value);
+    if(isNaN(v) || v<1 || v>currentList.length){alert("题号非法");return;}
+    currentIdx = v-1; renderQ();
+}
+function startExam(){alert("模拟考试功能，后续可以扩展");}
+function openWrongBook(){alert("错题本功能，后续可以扩展");}
+function openCollect(){alert("收藏功能，后续可以扩展");}
+
+window.onload = function(){
+    refreshHomeStat();
+}
+</script>
+</body>
+</html>
